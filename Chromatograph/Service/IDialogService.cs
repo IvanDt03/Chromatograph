@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace Chromatograph.Service;
 
-namespace Chromatograph.Service
+public interface IDialogService
 {
-    class IDialogService
-    {
-    }
+    void ShowMessage(string message, string title = "Сообщение");
 }
