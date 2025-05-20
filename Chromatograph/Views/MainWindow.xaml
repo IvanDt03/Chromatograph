@@ -9,14 +9,6 @@
         Title="MainWindow" Height="450" Width="800">
     
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="0.75*"/>
-        </Grid.ColumnDefinitions>
 
-        <StackPanel Grid.Column="1">
-            <TextBlock>Жидкостный хроматограф</TextBlock>
-            
-        </StackPanel>
     </Grid>
 </Window>
