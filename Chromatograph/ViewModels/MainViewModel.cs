@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace Chromatograph.ViewModels;
 
-namespace Chromatograph.ViewModels
+public class MainViewModel : Notifier
 {
-    class MainViewModel
-    {
-    }
+
 }
