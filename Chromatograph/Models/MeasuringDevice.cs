@@ -34,7 +34,7 @@ public class MeasuringDevice : Notifier
     public void StartMeasurement(int amountOfdata)
     {
         _amountOfData = amountOfdata;
-        _currentPoint = 0;
+        CurrentPoint = 0;
         _timer.Start();
     }
 
