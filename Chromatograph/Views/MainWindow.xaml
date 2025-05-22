@@ -10,13 +10,43 @@
         Title="MainWindow" Height="450" Width="800">
 
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"></ColumnDefinition>
             <ColumnDefinition Width="0.75*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
 
-        <StackPanel Grid.Column="1">
-            <TextBlock></TextBlock>
+        <Menu>
+            <MenuItem Header="О программе"></MenuItem>
+        </Menu>
+
+        <StackPanel Grid.Column="1" Grid.Row="1">
+            <TextBlock>Жидкотсный хроматограф</TextBlock>
+            <TextBlock>Доступные образцы (необходимо выбрать):</TextBlock>
+            <ComboBox></ComboBox>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0" Content="Загрузить образец"></Button>
+                <Button Grid.Column="1" Content="Очистить выбор"></Button>
+            </Grid>
+            <TextBlock>Зашруженный образец</TextBlock>
+            <Label></Label>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0" Content="Подготовить образец"></Button>
+                <Button Grid.Column="1" Content="Сбросить"></Button>
+            </Grid>
+            <Button Content="Запуск прибора"></Button>
+            <Button Content="Версия для печати"></Button>
         </StackPanel>
     </Grid>
 </Window>
