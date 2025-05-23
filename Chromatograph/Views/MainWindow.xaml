@@ -53,11 +53,12 @@
                     <ColumnDefinition></ColumnDefinition>
                     <ColumnDefinition></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <Button Grid.Column="0" Content="Подготовить образец"></Button>
-                <Button Grid.Column="1" Content="Сбросить"></Button>
+                <Button Grid.Column="0" Content="Подготовить образец" Command="{Binding PreparationCommand}"
+                        CommandParameter="{Binding ElementName=lblLoaded, Path=Content}"></Button>
+                <Button Grid.Column="1" Content="Сбросить" Command="{Binding ResetCommand}"
+                        CommandParameter="{Binding ElementName=lblLoaded, Path=Content}"></Button>
             </Grid>
-            <Button Content="Запуск прибора" Command="{Binding StartMeasurementCommand}"
-                    CommandParameter="{Binding ElementName=lblLoaded, Path=Content}"></Button>
+            <Button Content="Запуск прибора" Command="{Binding StartMeasurementCommand}"></Button>
             <Button Content="Версия для печати"></Button>
         </StackPanel>
 

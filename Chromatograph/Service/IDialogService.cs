@@ -2,5 +2,5 @@
 
 public interface IDialogService
 {
-    void ShowMessage(string message, string title = "Сообщение");
+    void ShowMessage(string? message, string title = "Сообщение");
 }

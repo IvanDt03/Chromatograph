@@ -3,6 +3,9 @@ using LiveChartsCore;
 using LiveChartsCore.Kernel;
 using LiveChartsCore.Kernel.Sketches;
 using LiveChartsCore.SkiaSharpView;
+using LiveChartsCore.SkiaSharpView.Painting;
+using SkiaSharp;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
@@ -24,7 +27,11 @@ public class ChartViewModel : Notifier
             new LineSeries<DataPoint>
             {
                 Values = _data,
-                Mapping = (p, i) => new Coordinate(p.Volume, p.Signal)
+                Mapping = (p, i) => new Coordinate(p.Volume, p.Signal),
+                Fill = null,
+                Stroke = new SolidColorPaint(SKColors.Green) { StrokeThickness = 3 },
+                GeometryFill = null,
+                GeometryStroke = null
             }
         };
 
@@ -70,15 +77,21 @@ public class ChartViewModel : Notifier
         OnPropertyChanged(nameof(Series));
     }
 
-    public void UpdateChart()
+    public void ResetChart()
     {
         _data.Clear();
-        XAxis[0].MinLimit = _data.Min(p => p.Volume);
-        XAxis[0].MaxLimit = _data.Max(p => p.Volume);
-        YAxis[0].MinLimit = _data.Min(p => p.Signal);
-        YAxis[0].MaxLimit = _data.Max(p => p.Signal);
-
+        
         OnPropertyChanged(nameof(Series));
+    }
+
+    public void PreparationChart(IEnumerable<DataPoint> dataPolymer)
+    {
+        XAxis[0].MinLimit = dataPolymer.Min(p => p.Volume);
+        XAxis[0].MaxLimit = dataPolymer.Max(p => p.Volume);
+
+        YAxis[0].MinLimit = dataPolymer.Min(p => p.Signal);
+        YAxis[0].MaxLimit = dataPolymer.Max(p => p.Signal);
+
         OnPropertyChanged(nameof(XAxis));
         OnPropertyChanged(nameof(YAxis));
     }

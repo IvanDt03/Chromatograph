@@ -53,6 +53,9 @@ public class MainViewModel : Notifier
                 if (LoadedPolymer != null)
                     Plot.AddPoint(LoadedPolymer.Data[_device.CurrentPoint]);
                 break;
+            case nameof(_device.IsRunning):
+                ResetCommand.RaiseCanExecuteChanged();
+                break;
         }
     }
 
@@ -102,7 +105,7 @@ public class MainViewModel : Notifier
                     var selected = o as Polymer;
                     LoadedPolymer = selected;
                 }, 
-                o => o is not null));
+                o => o is not null && LoadedPolymer is null));
         }
     }
 
@@ -111,31 +114,58 @@ public class MainViewModel : Notifier
         get
         {
             return _clearCommand ??
-                (_clearCommand = new RelayCommand(o => LoadedPolymer = null, o => LoadedPolymer is not null));
+                (_clearCommand = new RelayCommand(o => LoadedPolymer = null, o => LoadedPolymer is not null && !_device.IsRunning));
         }
+    }
+
+    public RelayCommand PreparationCommand
+    {
+        get { return _preparationCommand ??
+                (_preparationCommand = new RelayCommand(parameter =>
+                {
+                    var loadedPolymer = parameter as Polymer;
+
+                    if (loadedPolymer == null || loadedPolymer.Data.Count > 0)
+                        return;
+
+                    var result = _dataService.LoadPolymerData(loadedPolymer.Name);
+
+                    if (result.IsSuccess)
+                        loadedPolymer.Data = new ObservableCollection<DataPoint>(result.Data);
+                    else
+                        _dialogService.ShowMessage(result.Message);
+
+                    Plot.PreparationChart(loadedPolymer.Data);
+                    OnPropertyChanged(nameof(Plot));
+                },
+                o => o is not null)); }
     }
 
     public RelayCommand StartMeasurementCommand
     {
         get { return _startMeasurementCommand ??
-                (_startMeasurementCommand = new RelayCommand(OnStartMeasurement)); }
+                (_startMeasurementCommand = new RelayCommand(OnStartMeasurement, o => LoadedPolymer?.Data.Count > 0)); }
     }
 
     private void OnStartMeasurement(object? parameter)
     {
-        var loadedPolymer = parameter as Polymer;
+        if (LoadedPolymer != null)
+            _device.StartMeasurement(LoadedPolymer.Data.Count);
+    }
 
-        if (loadedPolymer == null)
-            return;
-
-        var result = _dataService.LoadPolymerData(loadedPolymer.Name);
-
-        if (result.IsSuccess)
-            loadedPolymer.Data = new ObservableCollection<DataPoint>(result.Data);
-        else
-            _dialogService.ShowMessage(result.Message);
-
-        _device.StartMeasurement(loadedPolymer.Data.Count);
+    public RelayCommand ResetCommand
+    {
+        get { return _resetCommand ??
+                (_resetCommand = new RelayCommand(o =>
+                {
+                    Plot.ResetChart();
+                    OnPropertyChanged(nameof(Plot));
+                    LoadedPolymer = null;
+                },
+                o =>
+                {
+                    return (o as Polymer)?.Data.Count > 0 && !_device.IsRunning;
+                })); }
     }
 
     #endregion
