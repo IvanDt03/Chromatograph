@@ -30,7 +30,34 @@ public class ExcelDataService : IDataSerive
         }
         catch(Exception ex)
         {
-            return LoadResult<List<Polymer>>.Failure($"Ошибка при загрузке данных Excel: {ex.Message}");
+            return LoadResult<List<Polymer>>.Failure($"Ошибка при считвании имен листов в Excel: {ex.Message}");
+        }
+    }
+
+    public LoadResult<List<DataPoint>> LoadPolymerData(string namePolymer)
+    {
+        try
+        {
+            var result = new List<DataPoint>();
+            using XLWorkbook wb = new XLWorkbook(_pathFile);
+
+            var ws = wb.Worksheet(namePolymer);
+
+            var row = ws.FirstRowUsed().RowBelow();
+            
+            while (row.Cell(1).IsEmpty() && row.Cell(2).IsEmpty())
+            {
+                var volume = row.Cell(1).GetDouble();
+                var signal = row.Cell(2).GetDouble();
+
+                result.Add(new DataPoint(volume, signal));
+            }
+
+            return LoadResult<List<DataPoint>>.Success(result);
+        }
+        catch (Exception ex)
+        {
+            return LoadResult<List<DataPoint>>.Failure($"Ошибка загрузи данных полимера {namePolymer}: {ex.Message}");
         }
     }
 }
