@@ -51,7 +51,7 @@ public class MeasuringDevice : Notifier
         set { SetValue(ref _currentPoint, value, nameof(CurrentPoint)); }
     }
 
-    public event EventHandler? MeasurementCompleted;
+    public event EventHandler<MeasurementCompletedEventArgs>? MeasurementCompleted;
     private void OnMeasurementCompleted()
     {
         if (MeasurementCompleted != null)

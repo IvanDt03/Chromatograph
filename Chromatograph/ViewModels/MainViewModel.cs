@@ -16,6 +16,7 @@ public class MainViewModel : Notifier
     private ChartViewModel _plot;
     private IDialogService _dialogService;
     private IDataSerive _dataService;
+    private bool _measurementIsCompleted = false;
 
     #endregion
 
@@ -41,6 +42,7 @@ public class MainViewModel : Notifier
         _plot = new ChartViewModel();
 
         _device.PropertyChanged += DeviceOnPropertyChanged;
+        _device.MeasurementCompleted += OnMeasurementIsCompleted;
         _dataService = dataService;
         _dialogService = dialogService;
     }
@@ -57,6 +59,11 @@ public class MainViewModel : Notifier
                 ResetCommand.RaiseCanExecuteChanged();
                 break;
         }
+    }
+
+    private void OnMeasurementIsCompleted(object? sender, MeasurementCompletedEventArgs args)
+    {
+        MeasurementIsCompleted = true;
     }
 
     #endregion
@@ -82,6 +89,12 @@ public class MainViewModel : Notifier
     {
         get { return _plot; }
         set { SetValue(ref _plot, value, nameof(Plot)); }
+    }
+
+    private bool MeasurementIsCompleted
+    {
+        get { return _measurementIsCompleted; }
+        set { SetValue(ref _measurementIsCompleted, value, nameof(MeasurementIsCompleted)); }
     }
 
     #endregion
@@ -151,11 +164,22 @@ public class MainViewModel : Notifier
                     Plot.ResetChart();
                     OnPropertyChanged(nameof(Plot));
                     LoadedPolymer = null;
+                    MeasurementIsCompleted = false;
                 },
                 o =>
                 {
                     return (o as Polymer)?.Data.Count > 0 && !_device.IsRunning;
                 })); }
+    }
+
+    public RelayCommand PrintCommand
+    {
+        get { return _printCommand ??
+                (_printCommand = new RelayCommand(o =>
+                {
+                    _dialogService.PrintChartRequested?.Invoke();
+                },
+                o => MeasurementIsCompleted)); }
     }
 
     #endregion

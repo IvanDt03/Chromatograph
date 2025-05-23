@@ -51,10 +51,10 @@
                         CommandParameter="{Binding ElementName=lblLoaded, Path=Content}"></Button>
             </Grid>
             <Button Content="Запуск прибора" Command="{Binding StartMeasurementCommand}"></Button>
-            <Button Content="Версия для печати"></Button>
+            <Button Content="Версия для печати" Command="{Binding PrintCommand}"></Button>
         </StackPanel>
 
-        <lvc:CartesianChart Grid.Column="0" Grid.Row="1"
+        <lvc:CartesianChart x:Name="chart" Grid.Column="0" Grid.Row="1"
                             Series="{Binding Plot.Series}"
                             XAxes="{Binding Plot.XAxis}"
                             YAxes="{Binding Plot.YAxis}">
