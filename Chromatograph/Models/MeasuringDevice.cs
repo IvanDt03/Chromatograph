@@ -13,19 +13,20 @@ public class MeasuringDevice : Notifier
     public MeasuringDevice()
     {
         _timer = new DispatcherTimer();
-        _timer.Interval = TimeSpan.FromMicroseconds(80);
+        _timer.Interval = TimeSpan.FromMilliseconds(100);
         _timer.Tick += OnStartMeasurement;
     }
 
     private void OnStartMeasurement(object? sender, EventArgs args)
     {
-        if (IsRunning)
+        if (!IsRunning)
             return;
 
-        if (_currentPoint >= _amountOfData)
+        if (CurrentPoint + 1 >= _amountOfData)
         {
             _timer.Stop();
             OnMeasurementCompleted();
+            return;
         }
 
         ++CurrentPoint;

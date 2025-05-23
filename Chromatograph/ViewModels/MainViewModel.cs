@@ -1,9 +1,8 @@
 ﻿using Chromatograph.Commands;
 using Chromatograph.Models;
 using Chromatograph.Service;
-using System;
 using System.Collections.ObjectModel;
-using System.Net.NetworkInformation;
+using System.ComponentModel;
 
 namespace Chromatograph.ViewModels;
 
@@ -14,17 +13,50 @@ public class MainViewModel : Notifier
     private ObservableCollection<Polymer> _polymers;
     private Polymer? _loadedPolymer;
     private MeasuringDevice _device;
-    //private IDialogService _dialogService;
-    //private IDataSerive _dataService;
+    private ChartViewModel _plot;
+    private IDialogService _dialogService;
+    private IDataSerive _dataService;
 
     #endregion
 
-    public MainViewModel()
+    #region Initialize
+
+    public MainViewModel(IDataSerive dataService, IDialogService dialogService)
     {
-        _polymers = new ObservableCollection<Polymer>() { new Polymer("ПВХ-1"), new Polymer("ПВХ-2"), new Polymer("ПВХ-3") };
-        _loadedPolymer = null;
+        _dataService = dataService;
+        _dialogService = dialogService;
+
+        var result = _dataService.LoadPolymers();
+
+        if (result.IsSuccess)
+            _polymers = new ObservableCollection<Polymer>(result.Data);
+        else
+        {
+            _dialogService.ShowMessage(result.Message);
+            _polymers = new ObservableCollection<Polymer>();
+        }
+
+            _loadedPolymer = null;
         _device = new MeasuringDevice();
+        _plot = new ChartViewModel();
+
+        _device.PropertyChanged += DeviceOnPropertyChanged;
+        _dataService = dataService;
+        _dialogService = dialogService;
     }
+
+    private void DeviceOnPropertyChanged(object? sender, PropertyChangedEventArgs args)
+    {
+        switch(args.PropertyName)
+        {
+            case nameof(_device.CurrentPoint):
+                if (LoadedPolymer != null)
+                    Plot.AddPoint(LoadedPolymer.Data[_device.CurrentPoint]);
+                break;
+        }
+    }
+
+    #endregion
 
     #region Properties
 
@@ -43,6 +75,12 @@ public class MainViewModel : Notifier
         }
     }
 
+    public ChartViewModel Plot
+    {
+        get { return _plot; }
+        set { SetValue(ref _plot, value, nameof(Plot)); }
+    }
+
     #endregion
 
     #region Commands
@@ -51,7 +89,7 @@ public class MainViewModel : Notifier
     private RelayCommand _clearCommand;
     private RelayCommand _preparationCommand;
     private RelayCommand _resetCommand;
-    private RelayCommand _startMeasurement;
+    private RelayCommand _startMeasurementCommand;
     private RelayCommand _printCommand;
 
     public RelayCommand LoadedCommand
@@ -75,6 +113,29 @@ public class MainViewModel : Notifier
             return _clearCommand ??
                 (_clearCommand = new RelayCommand(o => LoadedPolymer = null, o => LoadedPolymer is not null));
         }
+    }
+
+    public RelayCommand StartMeasurementCommand
+    {
+        get { return _startMeasurementCommand ??
+                (_startMeasurementCommand = new RelayCommand(OnStartMeasurement)); }
+    }
+
+    private void OnStartMeasurement(object? parameter)
+    {
+        var loadedPolymer = parameter as Polymer;
+
+        if (loadedPolymer == null)
+            return;
+
+        var result = _dataService.LoadPolymerData(loadedPolymer.Name);
+
+        if (result.IsSuccess)
+            loadedPolymer.Data = new ObservableCollection<DataPoint>(result.Data);
+        else
+            _dialogService.ShowMessage(result.Message);
+
+        _device.StartMeasurement(loadedPolymer.Data.Count);
     }
 
     #endregion

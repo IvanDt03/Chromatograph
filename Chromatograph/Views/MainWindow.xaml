@@ -8,12 +8,9 @@
         xmlns:view="clr-namespace:Chromatograph.Views"
         xmlns:vm="clr-namespace:Chromatograph.ViewModels"
         xmlns:model="clr-namespace:Chromatograph.Models"
+        xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.WPF;assembly=LiveChartsCore.SkiaSharpView.WPF"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-
-    <Window.DataContext>
-        <vm:MainViewModel></vm:MainViewModel>
-    </Window.DataContext>
 
     <Grid>
         <Grid.RowDefinitions>
@@ -59,8 +56,16 @@
                 <Button Grid.Column="0" Content="Подготовить образец"></Button>
                 <Button Grid.Column="1" Content="Сбросить"></Button>
             </Grid>
-            <Button Content="Запуск прибора"></Button>
+            <Button Content="Запуск прибора" Command="{Binding StartMeasurementCommand}"
+                    CommandParameter="{Binding ElementName=lblLoaded, Path=Content}"></Button>
             <Button Content="Версия для печати"></Button>
         </StackPanel>
+
+        <lvc:CartesianChart Grid.Column="0" Grid.Row="1"
+                            Series="{Binding Plot.Series}"
+                            XAxes="{Binding Plot.XAxis}"
+                            YAxes="{Binding Plot.YAxis}">
+            
+        </lvc:CartesianChart>
     </Grid>
 </Window>

@@ -43,12 +43,14 @@ public class ExcelDataService : IDataSerive
 
             var row = ws.FirstRowUsed().RowBelow();
             
-            while (row.Cell(1).IsEmpty() && row.Cell(2).IsEmpty())
+            while (!row.Cell(1).IsEmpty() && !row.Cell(2).IsEmpty())
             {
                 var volume = row.Cell(1).GetDouble();
                 var signal = row.Cell(2).GetDouble();
 
                 result.Add(new DataPoint(volume, signal));
+
+                row = row.RowBelow();
             }
 
             return LoadResult<List<DataPoint>>.Success(result);
