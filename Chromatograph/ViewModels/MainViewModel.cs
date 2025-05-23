@@ -89,13 +89,13 @@ public class MainViewModel : Notifier
     #region Commands
 
     private RelayCommand _loadedCommand;
-    private RelayCommand _clearCommand;
     private RelayCommand _preparationCommand;
     private RelayCommand _resetCommand;
     private RelayCommand _startMeasurementCommand;
     private RelayCommand _printCommand;
 
     public RelayCommand LoadedCommand
+
     {
         get
         {
@@ -105,19 +105,9 @@ public class MainViewModel : Notifier
                     var selected = o as Polymer;
                     LoadedPolymer = selected;
                 }, 
-                o => o is not null && LoadedPolymer is null));
+                o => o is not null && !_device.IsRunning));
         }
     }
-
-    public RelayCommand ClearCommand
-    {
-        get
-        {
-            return _clearCommand ??
-                (_clearCommand = new RelayCommand(o => LoadedPolymer = null, o => LoadedPolymer is not null && !_device.IsRunning));
-        }
-    }
-
     public RelayCommand PreparationCommand
     {
         get { return _preparationCommand ??

@@ -29,7 +29,7 @@ public class ChartViewModel : Notifier
                 Values = _data,
                 Mapping = (p, i) => new Coordinate(p.Volume, p.Signal),
                 Fill = null,
-                Stroke = new SolidColorPaint(SKColors.Green) { StrokeThickness = 3 },
+                Stroke = new SolidColorPaint(SKColors.Green) { StrokeThickness = 4 },
                 GeometryFill = null,
                 GeometryStroke = null
             }

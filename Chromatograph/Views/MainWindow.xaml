@@ -30,16 +30,8 @@
             <TextBlock>Жидкотсный хроматограф</TextBlock>
             <TextBlock>Доступные образцы (необходимо выбрать):</TextBlock>
             <ComboBox x:Name="cmbPolymers" ItemsSource="{Binding Polymers}" DisplayMemberPath="Name"></ComboBox>
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition></ColumnDefinition>
-                    <ColumnDefinition></ColumnDefinition>
-                </Grid.ColumnDefinitions>
-                <Button Grid.Column="0" Content="Загрузить образец"
-                        Command="{Binding LoadedCommand}" CommandParameter="{Binding ElementName=cmbPolymers, Path=SelectedItem}"></Button>
-                <Button Grid.Column="1" Content="Очистить выбор"
-                        Command="{Binding ClearCommand}"></Button>
-            </Grid>
+            <Button Content="Загрузить образец"
+                    Command="{Binding LoadedCommand}" CommandParameter="{Binding ElementName=cmbPolymers, Path=SelectedItem}"></Button>
             <TextBlock>Зашруженный образец</TextBlock>
             <Label x:Name="lblLoaded" Content="{Binding LoadedPolymer, Mode=OneWay}">
                 <Label.ContentTemplate>
