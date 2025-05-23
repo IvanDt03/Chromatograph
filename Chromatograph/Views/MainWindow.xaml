@@ -5,9 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:hc="https://handyorg.github.io/handycontrol"
         xmlns:local="clr-namespace:Chromatograph"
-        xmlns:v="clr-namespace:Chromatograph.Views"
+        xmlns:view="clr-namespace:Chromatograph.Views"
+        xmlns:vm="clr-namespace:Chromatograph.ViewModels"
+        xmlns:model="clr-namespace:Chromatograph.Models"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
+
+    <Window.DataContext>
+        <vm:MainViewModel></vm:MainViewModel>
+    </Window.DataContext>
 
     <Grid>
         <Grid.RowDefinitions>
@@ -26,17 +32,25 @@
         <StackPanel Grid.Column="1" Grid.Row="1">
             <TextBlock>Жидкотсный хроматограф</TextBlock>
             <TextBlock>Доступные образцы (необходимо выбрать):</TextBlock>
-            <ComboBox></ComboBox>
+            <ComboBox x:Name="cmbPolymers" ItemsSource="{Binding Polymers}" DisplayMemberPath="Name"></ComboBox>
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition></ColumnDefinition>
                     <ColumnDefinition></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <Button Grid.Column="0" Content="Загрузить образец"></Button>
-                <Button Grid.Column="1" Content="Очистить выбор"></Button>
+                <Button Grid.Column="0" Content="Загрузить образец"
+                        Command="{Binding LoadedCommand}" CommandParameter="{Binding ElementName=cmbPolymers, Path=SelectedItem}"></Button>
+                <Button Grid.Column="1" Content="Очистить выбор"
+                        Command="{Binding ClearCommand}"></Button>
             </Grid>
             <TextBlock>Зашруженный образец</TextBlock>
-            <Label></Label>
+            <Label x:Name="lblLoaded" Content="{Binding LoadedPolymer, Mode=OneWay}">
+                <Label.ContentTemplate>
+                    <DataTemplate DataType="{x:Type model:Polymer}">
+                        <TextBlock Text="{Binding Name}"></TextBlock>
+                    </DataTemplate>
+                </Label.ContentTemplate>
+            </Label>
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition></ColumnDefinition>

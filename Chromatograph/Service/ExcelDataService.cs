@@ -8,12 +8,10 @@ namespace Chromatograph.Service;
 public class ExcelDataService : IDataSerive
 {
     private string _pathFile;
-    private Random _random;
 
     public ExcelDataService(string pathFile)
     {
         _pathFile = pathFile;
-        _random = new Random();
     }
 
     public LoadResult<List<Polymer>> LoadPolymers()
@@ -30,7 +28,7 @@ public class ExcelDataService : IDataSerive
         }
         catch(Exception ex)
         {
-            return LoadResult<List<Polymer>>.Failure($"Ошибка при считвании имен листов в Excel: {ex.Message}");
+            return LoadResult<List<Polymer>>.Failure($"Ошибка при считвании имен листов в Excel: {ex.Message}\nПроверьте правильность указанных листов в Excel-файле");
         }
     }
 
@@ -57,7 +55,9 @@ public class ExcelDataService : IDataSerive
         }
         catch (Exception ex)
         {
-            return LoadResult<List<DataPoint>>.Failure($"Ошибка загрузи данных полимера {namePolymer}: {ex.Message}");
+            return LoadResult<List<DataPoint>>.Failure($"Ошибка загрузи данных полимера {namePolymer}: {ex.Message}" +
+                $"\nПроверьте правильность введенных данных в листе, возможно, требуется поменять точки на запятые" +
+                $"или столбцы размещены не в соотвествии шаблону предыдущих листов");
         }
     }
 }
