@@ -109,7 +109,7 @@ public class MainViewModel : Notifier
                     var selected = o as Polymer;
                     LoadedPolymer = selected;
                 },
-                o => o is not null && !_device.IsRunning && Plot.IsEmpty()));
+                o => o is not null && !_device.IsRunning && Plot.IsEmpty() && LoadedPolymer is null));
         }
     }
     public RelayCommand PreparationCommand
@@ -123,7 +123,7 @@ public class MainViewModel : Notifier
                         return;
                     OnPreparationPolymer(loadedPolymer);
                 },
-                o => o is not null && !_device.IsRunning && Plot.IsEmpty())); }
+                o => o is not null && !_device.IsRunning && Plot.IsEmpty() && (o as Polymer)?.Data.Count == 0)); }
     }
 
     private void OnPreparationPolymer(Polymer loadedPolymer)
@@ -134,7 +134,7 @@ public class MainViewModel : Notifier
         {
             loadedPolymer.Data = new ObservableCollection<DataPoint>(result.Data);
 
-            Plot.PreparationChart(loadedPolymer.Data);
+            Plot.PreparationChart(loadedPolymer);
             OnPropertyChanged(nameof(Plot));
         }
         else

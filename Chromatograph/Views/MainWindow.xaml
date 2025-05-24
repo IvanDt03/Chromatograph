@@ -9,6 +9,7 @@
         xmlns:vm="clr-namespace:Chromatograph.ViewModels"
         xmlns:model="clr-namespace:Chromatograph.Models"
         xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.WPF;assembly=LiveChartsCore.SkiaSharpView.WPF"
+        xmlns:ve="clr-namespace:LiveChartsCore.SkiaSharpView.VisualElements;assembly=LiveChartsCore.SkiaSharpView"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
 
@@ -59,7 +60,7 @@
                             Series="{Binding Plot.Series}"
                             XAxes="{Binding Plot.XAxis}"
                             YAxes="{Binding Plot.YAxis}"
-                            ZoomMode="PanX">
+                            TooltipPosition="Hidden">
         </lvc:CartesianChart>
     </Grid>
 </Window>

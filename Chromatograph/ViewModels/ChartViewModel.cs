@@ -5,7 +5,6 @@ using LiveChartsCore.Kernel.Sketches;
 using LiveChartsCore.SkiaSharpView;
 using LiveChartsCore.SkiaSharpView.Painting;
 using SkiaSharp;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
@@ -21,7 +20,7 @@ public class ChartViewModel : Notifier
     public ChartViewModel()
     {
         _data = new ObservableCollection<DataPoint>();
-
+        
         _series = new ObservableCollection<ISeries>
         {
             new LineSeries<DataPoint>
@@ -83,13 +82,13 @@ public class ChartViewModel : Notifier
         OnPropertyChanged(nameof(Series));
     }
 
-    public void PreparationChart(IEnumerable<DataPoint> dataPolymer)
+    public void PreparationChart(Polymer loaded)
     {
-        XAxis[0].MinLimit = dataPolymer.Min(p => p.Volume);
-        XAxis[0].MaxLimit = dataPolymer.Max(p => p.Volume);
+        XAxis[0].MinLimit = loaded.Data.Min(p => p.Volume);
+        XAxis[0].MaxLimit = loaded.Data.Max(p => p.Volume);
 
-        YAxis[0].MinLimit = dataPolymer.Min(p => p.Signal);
-        YAxis[0].MaxLimit = dataPolymer.Max(p => p.Signal);
+        YAxis[0].MinLimit = loaded.Data.Min(p => p.Signal);
+        YAxis[0].MaxLimit = loaded.Data.Max(p => p.Signal);
 
         OnPropertyChanged(nameof(XAxis));
         OnPropertyChanged(nameof(YAxis));
