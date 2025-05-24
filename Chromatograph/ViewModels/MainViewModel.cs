@@ -198,7 +198,8 @@ public class MainViewModel : Notifier
                 (_printCommand = new RelayCommand(o =>
                 {
                     _dialogService.PrintChartRequested?.Invoke();
-                })); 
+                },
+                o => !_device.IsRunning)); 
         }
     }
 
