@@ -13,15 +13,12 @@ public class MeasuringDevice : Notifier
     public MeasuringDevice()
     {
         _timer = new DispatcherTimer();
-        _timer.Interval = TimeSpan.FromMilliseconds(300);
+        _timer.Interval = TimeSpan.FromMilliseconds(20);
         _timer.Tick += OnStartMeasurement;
     }
 
     private void OnStartMeasurement(object? sender, EventArgs args)
     {
-        if (!IsRunning)
-            return;
-
         if (CurrentPoint + 1 >= _amountOfData)
         {
             _timer.Stop();
@@ -35,6 +32,8 @@ public class MeasuringDevice : Notifier
 
     public void StartMeasurement(int amountOfdata)
     {
+        if (IsRunning)
+            return;
         _amountOfData = amountOfdata;
         CurrentPoint = 0;
         _timer.Start();
@@ -50,6 +49,7 @@ public class MeasuringDevice : Notifier
         get { return _currentPoint; }
         set { SetValue(ref _currentPoint, value, nameof(CurrentPoint)); }
     }
+
 
     public event EventHandler<MeasurementCompletedEventArgs>? MeasurementCompleted;
     private void OnMeasurementCompleted()

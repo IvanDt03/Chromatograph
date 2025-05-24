@@ -28,7 +28,7 @@ public class ExcelDataService : IDataSerive
         }
         catch(Exception ex)
         {
-            return LoadResult<List<Polymer>>.Failure($"Ошибка при считвании имен листов в Excel: {ex.Message}\nПроверьте правильность указанных листов в Excel-файле");
+            return LoadResult<List<Polymer>>.Failure($"Ошибка при считвании имен листов в Excel: {ex.Message}");
         }
     }
 

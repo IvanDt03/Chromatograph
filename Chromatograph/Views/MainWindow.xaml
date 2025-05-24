@@ -50,15 +50,16 @@
                 <Button Grid.Column="1" Content="Сбросить" Command="{Binding ResetCommand}"
                         CommandParameter="{Binding ElementName=lblLoaded, Path=Content}"></Button>
             </Grid>
-            <Button Content="Запуск прибора" Command="{Binding StartMeasurementCommand}"></Button>
+            <Button Content="Запуск прибора" Command="{Binding StartMeasurementCommand}"
+                    CommandParameter="{Binding ElementName=lblLoaded, Path=Content}"></Button>
             <Button Content="Версия для печати" Command="{Binding PrintCommand}"></Button>
         </StackPanel>
 
         <lvc:CartesianChart x:Name="chart" Grid.Column="0" Grid.Row="1"
                             Series="{Binding Plot.Series}"
                             XAxes="{Binding Plot.XAxis}"
-                            YAxes="{Binding Plot.YAxis}">
-            
+                            YAxes="{Binding Plot.YAxis}"
+                            ZoomMode="PanX">
         </lvc:CartesianChart>
     </Grid>
 </Window>

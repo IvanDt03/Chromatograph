@@ -11,13 +11,13 @@ public class Polymer : Notifier
     public Polymer(string name)
     {
         _name = name;
-        _data = new ObservableCollection<DataPoint>();
+        _data = new ObservableCollection<DataPoint>(); 
     }
 
     public string Name
     {
         get { return _name; }
-        set { SetValue(ref _name, value, nameof(Name)); }
+        private set { SetValue(ref _name, value, nameof(Name)); }
     }
 
     public ObservableCollection<DataPoint> Data

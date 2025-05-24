@@ -1,6 +1,5 @@
 ﻿using Chromatograph.Service;
 using Chromatograph.ViewModels;
-using LiveChartsCore.SkiaSharpView.WPF;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -20,23 +19,12 @@ public partial class MainWindow : Window
 
     private void PrintChart()
     {
-        PrintDialog pd = new PrintDialog();
+        var printDialog = new PrintDialog();
+        printDialog.PrintTicket.PageOrientation = System.Printing.PageOrientation.ReverseLandscape;
 
-        if (pd.ShowDialog() == true)
+        if (printDialog.ShowDialog() == true)
         {
-            var chartVisual = new CartesianChart
-            {
-                Series = chart.Series,
-                XAxes = chart.XAxes,
-                YAxes = chart.YAxes,
-                Width = chart.Width,
-                Height = chart.Height,
-            };
-
-            chartVisual.Measure(new Size(chartVisual.Width, chartVisual.Height));
-            chartVisual.Arrange(new Rect(new Point(0, 0), new Size(chartVisual.Width, chartVisual.Height)));
-
-            pd.PrintVisual(chartVisual, "Печать графика");
+            printDialog.PrintVisual(chart, "Печать графика");
         }
     }
 }

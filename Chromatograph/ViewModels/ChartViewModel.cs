@@ -39,7 +39,7 @@ public class ChartViewModel : Notifier
         {
             new Axis
             {
-                Name = "Объем"
+                Name = "Объем",
             }
         };
 
@@ -47,7 +47,7 @@ public class ChartViewModel : Notifier
         {
             new Axis
             {
-                Name = "Сигнал"
+                Name = "Сигнал",
             }
         };
     }
@@ -55,32 +55,31 @@ public class ChartViewModel : Notifier
     public ObservableCollection<ISeries> Series
     {
         get { return _series; }
-        set { SetValue(ref _series, value, nameof(Series)); }
+        private set { SetValue(ref _series, value, nameof(Series)); }
     }
 
     public ObservableCollection<ICartesianAxis> XAxis
     {
         get { return _xAxis; }
-        set { SetValue(ref _xAxis, value, nameof(XAxis)); }
+        private set { SetValue(ref _xAxis, value, nameof(XAxis)); }
     }
 
     public ObservableCollection<ICartesianAxis> YAxis
     {
         get { return _yAxis; }
-        set { SetValue(ref _yAxis, value, nameof(YAxis)); }
+        private set { SetValue(ref _yAxis, value, nameof(YAxis)); }
     }
 
     public void AddPoint(DataPoint point)
     {
         _data.Add(point);
-
         OnPropertyChanged(nameof(Series));
     }
 
     public void ResetChart()
     {
         _data.Clear();
-        
+
         OnPropertyChanged(nameof(Series));
     }
 
@@ -95,4 +94,6 @@ public class ChartViewModel : Notifier
         OnPropertyChanged(nameof(XAxis));
         OnPropertyChanged(nameof(YAxis));
     }
+
+    public bool IsEmpty() => _data.Count == 0;
 }
