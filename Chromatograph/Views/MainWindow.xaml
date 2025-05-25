@@ -56,7 +56,8 @@
             <Button Content="Версия для печати" Command="{Binding PrintCommand}"></Button>
         </StackPanel>
 
-        <oxy:PlotView x:Name="chart" Margin="5" Grid.Row="1" Model="{Binding Plot.Model}"></oxy:PlotView>
+        <oxy:PlotView x:Name="chart" Margin="5" Grid.Row="1" 
+                      Model="{Binding Plot.Model}"></oxy:PlotView>
         <!--<lvc:CartesianChart x:Name="chart" Grid.Row="1" 
                             Series="{Binding Plot.Series}"
                             XAxes="{Binding Plot.XAxis}"

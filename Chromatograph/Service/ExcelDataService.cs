@@ -8,6 +8,7 @@ namespace Chromatograph.Service;
 public class ExcelDataService : IDataSerive
 {
     private string _pathFile;
+    Random _random = new Random();
 
     public ExcelDataService(string pathFile)
     {
@@ -46,7 +47,9 @@ public class ExcelDataService : IDataSerive
             while (!row.Cell(1).IsEmpty() && !row.Cell(2).IsEmpty())
             {
                 var volume = row.Cell(1).GetDouble();
-                var signal = row.Cell(2).GetDouble();
+
+                var deviceError = (volume * 0.04) + ((_random.NextDouble() - 0.5) * 0.1);
+                var signal = row.Cell(2).GetDouble() + deviceError;
 
                 result.Add(new DataPoint(volume, signal));
 

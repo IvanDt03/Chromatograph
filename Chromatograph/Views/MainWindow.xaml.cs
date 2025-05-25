@@ -25,6 +25,7 @@ public partial class MainWindow : Window
     {
 
         var printDialog = new PrintDialog();
+        printDialog.PrintTicket.PageOrientation = System.Printing.PageOrientation.Landscape;
         if (printDialog.ShowDialog() != true) return;
 
         double paddingFactor = 1.1;
@@ -48,8 +49,8 @@ public partial class MainWindow : Window
         {
             Source = bitmap,
             Stretch = Stretch.Uniform,
-            Width = printDialog.PrintableAreaWidth * 0.9,
-            Height = printDialog.PrintableAreaHeight * 0.9
+            Width = printDialog.PrintableAreaWidth * 0.95,
+            Height = printDialog.PrintableAreaHeight * 0.95
         };
 
         var printCanvas = new Canvas
@@ -103,6 +104,19 @@ public partial class MainWindow : Window
         Canvas.SetTop(image, (printDialog.PrintableAreaHeight - image.Height) / 2);
 
         printDialog.PrintVisual(printCanvas, "График LiveCharts2 (полная страница)");
+        */
+
+        // тут тоже печать LiveChart2, yj c незначительным изменнеием исходного UI элемента
+        /*
+        var pd = new PrintDialog();
+        if (pd.ShowDialog() == true)
+        {
+            var originalScale = chart.LayoutTransform;
+            var scale = pd.PrintableAreaWidth / chart.ActualWidth;
+            chart.LayoutTransform = new ScaleTransform(scale, scale);
+
+            pd.PrintVisual(chart, "Печать графика");
+            chart.LayoutTransform = originalScale;
         */
     }
 }
