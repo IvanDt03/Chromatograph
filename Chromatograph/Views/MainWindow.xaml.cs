@@ -38,7 +38,7 @@ public partial class MainWindow : Window
         };
 
         var originalPadding = chart.Model.Padding;
-        chart.Model.Padding = new OxyThickness(40);
+        chart.Model.Padding = new OxyThickness(30);
 
         var bitmap = exporter.ExportToBitmap(chart.Model);
 
@@ -67,20 +67,16 @@ public partial class MainWindow : Window
 
         // Тут печать LiveCharts2
         /*
-        // 1. Настраиваем PrintDialog
         var printDialog = new PrintDialog();
 
-        // 2. Можно задать альбомную ориентацию, если график широкий
         printDialog.PrintTicket.PageOrientation = System.Printing.PageOrientation.Landscape;
 
         if (printDialog.ShowDialog() != true)
             return;
 
-        // 3. Получаем размеры печатной области
         double printableWidth = printDialog.PrintableAreaWidth;
         double printableHeight = printDialog.PrintableAreaHeight;
 
-        // 4. Рендерим график в Bitmap (можно увеличить DPI для качества)
         var bitmap = new RenderTargetBitmap(
             (int)chart.ActualWidth,
             (int)chart.ActualHeight,
@@ -88,16 +84,14 @@ public partial class MainWindow : Window
             PixelFormats.Pbgra32);
         bitmap.Render(chart);
 
-        // 5. Создаем Image и растягиваем на всю область (без сохранения пропорций!)
         var image = new Image
         {
             Source = bitmap,
-            Stretch = Stretch.Fill,  // Важно: Fill (не Uniform)
+            Stretch = Stretch.Fill,
             Width = printableWidth,
             Height = printableHeight
         };
 
-        // 6. Размещаем Image на Canvas
         var printCanvas = new Canvas
         {
             Width = printableWidth,
@@ -108,7 +102,6 @@ public partial class MainWindow : Window
         Canvas.SetLeft(image, (printDialog.PrintableAreaWidth - image.Width) / 2);
         Canvas.SetTop(image, (printDialog.PrintableAreaHeight - image.Height) / 2);
 
-        // 7. Печатаем
         printDialog.PrintVisual(printCanvas, "График LiveCharts2 (полная страница)");
         */
     }
