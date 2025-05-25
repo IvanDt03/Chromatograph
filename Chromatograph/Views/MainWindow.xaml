@@ -56,10 +56,12 @@
             <Button Content="Версия для печати" Command="{Binding PrintCommand}"></Button>
         </StackPanel>
 
-        <!--<oxy:PlotView x:Name="chart" Margin="5" Grid.Row="1" Model="{Binding Plot.Model}"></oxy:PlotView>-->
-        <lvc:CartesianChart x:Name="chart" Grid.Row="1" Series="{Binding Plot.Series}"
+        <oxy:PlotView x:Name="chart" Margin="5" Grid.Row="1" Model="{Binding Plot.Model}"></oxy:PlotView>
+        <!--<lvc:CartesianChart x:Name="chart" Grid.Row="1" 
+                            Series="{Binding Plot.Series}"
                             XAxes="{Binding Plot.XAxis}"
                             YAxes="{Binding Plot.YAxis}"
-                            TooltipPosition="Hidden"></lvc:CartesianChart>
+                            TooltipPosition="Hidden"
+                            Title="{Binding Plot.Title}"></lvc:CartesianChart>-->
     </Grid>
 </Window>

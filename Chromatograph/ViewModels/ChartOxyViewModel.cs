@@ -24,7 +24,11 @@ public class ChartOxyViewModel : Notifier
             Position = AxisPosition.Left,
         };
 
-        _model = new PlotModel();
+        _model = new PlotModel
+        {
+            Title = "",
+        };
+
         _series = new LineSeries
         {
             StrokeThickness = 2,
@@ -60,6 +64,7 @@ public class ChartOxyViewModel : Notifier
     public void ResetChart()
     {
         _series.Points.Clear();
+        _model.Title = "";
         _model.InvalidatePlot(true);
     }
 

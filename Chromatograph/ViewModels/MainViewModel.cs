@@ -17,7 +17,7 @@ public class MainViewModel : Notifier
     private IDataSerive _dataService;
 
 
-    private ChartViewModel _plot;
+    private ChartOxyViewModel _plot;
     #endregion
 
     #region Initialize
@@ -36,7 +36,7 @@ public class MainViewModel : Notifier
         _dialogService = dialogService;
 
 
-        _plot = new ChartViewModel();
+        _plot = new ChartOxyViewModel();
     }
     private void InitializePolymers()
     {
@@ -88,7 +88,7 @@ public class MainViewModel : Notifier
         }
     }
 
-    public ChartViewModel Plot
+    public ChartOxyViewModel Plot
     {
         get { return _plot; }
         set { SetValue(ref _plot, value, nameof(Plot)); }
@@ -115,7 +115,7 @@ public class MainViewModel : Notifier
                     var selected = o as Polymer;
                     LoadedPolymer = selected;
                 },
-                o => o is not null && Plot.IsEmpty() && !_device.IsRunning && LoadedPolymer is null)); // Plot.IsEmpty()
+                o => o is not null && Plot.IsEmpty() && !_device.IsRunning && LoadedPolymer is null));
         }
     }
     public RelayCommand PreparationCommand
@@ -129,7 +129,7 @@ public class MainViewModel : Notifier
                         return;
                     OnPreparationPolymer(loadedPolymer);
                 },
-                o => o is not null && Plot.IsEmpty() && !_device.IsRunning && (o as Polymer)?.Data.Count == 0)); } // Plot.IsEmpty()
+                o => o is not null && Plot.IsEmpty() && !_device.IsRunning && (o as Polymer)?.Data.Count == 0)); }
     }
 
     private void OnPreparationPolymer(Polymer loadedPolymer)
