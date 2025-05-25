@@ -13,10 +13,11 @@ public class MainViewModel : Notifier
     private ObservableCollection<Polymer> _polymers;
     private Polymer? _loadedPolymer;
     private MeasuringDevice _device;
-    private ChartViewModel _plot;
     private IDialogService _dialogService;
     private IDataSerive _dataService;
 
+
+    private ChartViewModel _plot;
     #endregion
 
     #region Initialize
@@ -27,13 +28,15 @@ public class MainViewModel : Notifier
         _dialogService = dialogService;
         
         _device = new MeasuringDevice();
-        _plot = new ChartViewModel();
 
         InitializePolymers();
 
         _device.PropertyChanged += DeviceOnPropertyChanged;
         _dataService = dataService;
         _dialogService = dialogService;
+
+
+        _plot = new ChartViewModel();
     }
     private void InitializePolymers()
     {
@@ -54,8 +57,11 @@ public class MainViewModel : Notifier
         switch(args.PropertyName)
         {
             case nameof(_device.CurrentPoint):
-                if (LoadedPolymer != null)
+                if (LoadedPolymer is not null)
+                {
                     Plot.AddPoint(LoadedPolymer.Data[_device.CurrentPoint]);
+                    OnPropertyChanged(nameof(Plot));
+                }
                 break;
             case nameof(_device.IsRunning):
                 ResetCommand.RaiseCanExecuteChanged();
@@ -109,7 +115,7 @@ public class MainViewModel : Notifier
                     var selected = o as Polymer;
                     LoadedPolymer = selected;
                 },
-                o => o is not null && !_device.IsRunning && Plot.IsEmpty() && LoadedPolymer is null));
+                o => o is not null && Plot.IsEmpty() && !_device.IsRunning && LoadedPolymer is null)); // Plot.IsEmpty()
         }
     }
     public RelayCommand PreparationCommand
@@ -123,7 +129,7 @@ public class MainViewModel : Notifier
                         return;
                     OnPreparationPolymer(loadedPolymer);
                 },
-                o => o is not null && !_device.IsRunning && Plot.IsEmpty() && (o as Polymer)?.Data.Count == 0)); }
+                o => o is not null && Plot.IsEmpty() && !_device.IsRunning && (o as Polymer)?.Data.Count == 0)); } // Plot.IsEmpty()
     }
 
     private void OnPreparationPolymer(Polymer loadedPolymer)
@@ -133,9 +139,7 @@ public class MainViewModel : Notifier
         if (result.IsSuccess)
         {
             loadedPolymer.Data = new ObservableCollection<DataPoint>(result.Data);
-
             Plot.PreparationChart(loadedPolymer);
-            OnPropertyChanged(nameof(Plot));
         }
         else
             _dialogService.ShowMessage(result.Message);
@@ -165,7 +169,7 @@ public class MainViewModel : Notifier
         if (loaded == null)
             return false;
 
-        return Plot.IsEmpty() && !_device.IsRunning && loaded.Data.Count > 0;
+        return !_device.IsRunning && Plot.IsEmpty() && loaded.Data.Count > 0;
     }
 
     public RelayCommand ResetCommand

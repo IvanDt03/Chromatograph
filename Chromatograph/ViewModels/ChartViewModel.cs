@@ -78,7 +78,6 @@ public class ChartViewModel : Notifier
     public void ResetChart()
     {
         _data.Clear();
-
         OnPropertyChanged(nameof(Series));
     }
 
