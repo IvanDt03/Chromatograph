@@ -15,6 +15,7 @@ public class MainViewModel : Notifier
     private MeasuringDevice _device;
     private IDialogService _dialogService;
     private IDataSerive _dataService;
+    private double _progressModel;
 
 
     private ChartOxyViewModel _plot;
@@ -32,10 +33,11 @@ public class MainViewModel : Notifier
         InitializePolymers();
 
         _device.PropertyChanged += DeviceOnPropertyChanged;
+        //_device.MeasurementCompleted += OnMeasurementCompleted;
         _dataService = dataService;
         _dialogService = dialogService;
 
-
+        _progressModel = 0;
         _plot = new ChartOxyViewModel();
     }
     private void InitializePolymers()
@@ -69,6 +71,11 @@ public class MainViewModel : Notifier
         }
     }
 
+    private void OnMeasurementCompleted(object? sender, MeasurementCompletedEventArgs args)
+    {
+        Plot.AllowPan();
+    }
+
     #endregion
 
     #region Properties
@@ -92,6 +99,12 @@ public class MainViewModel : Notifier
     {
         get { return _plot; }
         set { SetValue(ref _plot, value, nameof(Plot)); }
+    }
+
+    public double ProgressModel
+    {
+        get { return _progressModel; }
+        set { SetValue(ref _progressModel, value, nameof(ProgressModel)); StartMeasurementCommand.RaiseCanExecuteChanged(); }
     }
 
     #endregion
@@ -169,7 +182,7 @@ public class MainViewModel : Notifier
         if (loaded == null)
             return false;
 
-        return !_device.IsRunning && Plot.IsEmpty() && loaded.Data.Count > 0;
+        return !_device.IsRunning && Plot.IsEmpty() && loaded.Data.Count > 0 && ProgressModel == 100;
     }
 
     public RelayCommand ResetCommand
@@ -185,6 +198,8 @@ public class MainViewModel : Notifier
                     {
                         loaded.Data.Clear();
                         LoadedPolymer = null;
+
+                        ProgressModel = 0;
 
                         Plot.ResetChart();
                         OnPropertyChanged(nameof(Plot));

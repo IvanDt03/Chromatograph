@@ -11,7 +11,7 @@ using System.Linq;
 
 namespace Chromatograph.ViewModels;
 
-public class ChartViewModel : Notifier
+public class ChartLiveViewModel : Notifier
 {
     private ObservableCollection<ISeries> _series;
     private ObservableCollection<ICartesianAxis> _xAxis;
@@ -19,7 +19,7 @@ public class ChartViewModel : Notifier
     private ObservableCollection<DataPoint> _data;
     private LabelVisual _title;
 
-    public ChartViewModel()
+    public ChartLiveViewModel()
     {
         _data = new ObservableCollection<DataPoint>();
         

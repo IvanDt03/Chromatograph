@@ -1,5 +1,4 @@
-﻿using DocumentFormat.OpenXml.Drawing;
-using OxyPlot;
+﻿using OxyPlot;
 using OxyPlot.Axes;
 using OxyPlot.Series;
 using System;
@@ -21,9 +20,7 @@ public class ChartOxyViewModel : Notifier
             Title = "Объем",
             Position = AxisPosition.Bottom,
             IsZoomEnabled = false,
-            IsPanEnabled = true,
-            MajorGridlineStyle = LineStyle.Solid,
-            MinorGridlineStyle = LineStyle.Solid,
+            IsPanEnabled = false,
         };
 
         _yAxis = new LinearAxis
@@ -42,7 +39,7 @@ public class ChartOxyViewModel : Notifier
         _series = new LineSeries
         {
             StrokeThickness = 2,
-            TrackerFormatString = "X: {2:0.000}\nY: {4:0.000}",
+            TrackerFormatString = "Объем: {2:0.000}\nСигнал: {4:0.000}",
         };
 
         _model.Series.Add(_series);
@@ -58,7 +55,12 @@ public class ChartOxyViewModel : Notifier
 
     public void PreparationChart(Chromatograph.Models.Polymer loaded)
     {
+        //_xAxis.Reset();
+
         _model.Title = loaded.Name;
+
+        //_xAxis.IsPanEnabled = false;
+
         _xAxis.Minimum = loaded.Data.Min(p => p.Volume);
         _xAxis.Maximum = loaded.Data.Max(p => p.Volume);
         //_xAxis.AbsoluteMinimum = loaded.Data.Min(p => p.Volume);
@@ -72,8 +74,8 @@ public class ChartOxyViewModel : Notifier
     public void AddPoint(Chromatograph.Models.DataPoint point)
     {
         _series.Points.Add(new OxyPlot.DataPoint(point.Volume, point.Signal));
-        //_xAxis.Minimum = Math.Max(_xAxis.AbsoluteMinimum, point.Volume - 18);
-        //_xAxis.Maximum = Math.Min(_xAxis.AbsoluteMaximum, point.Volume + 8);
+        //_xAxis.Minimum = Math.Max(_xAxis.AbsoluteMinimum, point.Volume - 20);
+        //_xAxis.Maximum = Math.Min(_xAxis.AbsoluteMaximum, point.Volume + 5);
         _model.InvalidatePlot(true);
     }
 
@@ -87,5 +89,10 @@ public class ChartOxyViewModel : Notifier
     public bool IsEmpty()
     {
         return _series.Points.Count == 0;
+    }
+
+    public void AllowPan()
+    {
+        _xAxis.IsPanEnabled = true;
     }
 }

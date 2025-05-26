@@ -2,6 +2,7 @@
 using Chromatograph.ViewModels;
 using OxyPlot;
 using OxyPlot.Wpf;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -106,7 +107,7 @@ public partial class MainWindow : Window
         printDialog.PrintVisual(printCanvas, "График LiveCharts2 (полная страница)");
         */
 
-        // тут тоже печать LiveChart2, yj c незначительным изменнеием исходного UI элемента
+        // тут тоже печать LiveChart2, но c незначительным изменнеием исходного UI элемента
         /*
         var pd = new PrintDialog();
         if (pd.ShowDialog() == true)
@@ -118,5 +119,18 @@ public partial class MainWindow : Window
             pd.PrintVisual(chart, "Печать графика");
             chart.LayoutTransform = originalScale;
         */
+    }
+
+    // Очень грубая издержка, так делать нелья :), 
+    // но для постраты реализации прибегаем к магии и немного нарушаем прицип паттена MVVM,
+    // меня свойство ViewMdelи во View
+    private void StoryBoard_Completed(object? sender, EventArgs e)
+    {
+        var vm = this.DataContext as MainViewModel;
+
+        if (vm is not null)
+            vm.ProgressModel = 100;
+
+        prepareBtn.IsChecked = false;
     }
 }
