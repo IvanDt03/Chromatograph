@@ -67,62 +67,50 @@ public partial class MainWindow : Window
 
         printDialog.PrintVisual(printCanvas, "Печать грфика");
 
+        #region
         // Тут печать LiveCharts2
-        /*
-        var printDialog = new PrintDialog();
 
-        printDialog.PrintTicket.PageOrientation = System.Printing.PageOrientation.Landscape;
+        //var printDialog = new PrintDialog();
 
-        if (printDialog.ShowDialog() != true)
-            return;
+        //printDialog.PrintTicket.PageOrientation = System.Printing.PageOrientation.Landscape;
 
-        double printableWidth = printDialog.PrintableAreaWidth;
-        double printableHeight = printDialog.PrintableAreaHeight;
+        //if (printDialog.ShowDialog() != true)
+        //    return;
 
-        var bitmap = new RenderTargetBitmap(
-            (int)chart.ActualWidth,
-            (int)chart.ActualHeight,
-            96, 96,  // Можно 300 DPI, если нужно высокое качество
-            PixelFormats.Pbgra32);
-        bitmap.Render(chart);
+        //double printableWidth = printDialog.PrintableAreaWidth;
+        //double printableHeight = printDialog.PrintableAreaHeight;
 
-        var image = new Image
-        {
-            Source = bitmap,
-            Stretch = Stretch.Fill,
-            Width = printableWidth,
-            Height = printableHeight
-        };
+        //var bitmap = new RenderTargetBitmap(
+        //    (int)chart.ActualWidth,
+        //    (int)chart.ActualHeight,
+        //    96, 96,  // Можно 300 DPI, если нужно высокое качество
+        //    PixelFormats.Pbgra32);
+        //bitmap.Render(chart);
 
-        var printCanvas = new Canvas
-        {
-            Width = printableWidth,
-            Height = printableHeight,
-            Background = Brushes.White
-        };
-        printCanvas.Children.Add(image);
-        Canvas.SetLeft(image, (printDialog.PrintableAreaWidth - image.Width) / 2);
-        Canvas.SetTop(image, (printDialog.PrintableAreaHeight - image.Height) / 2);
+        //var image = new Image
+        //{
+        //    Source = bitmap,
+        //    Stretch = Stretch.Fill,
+        //    Width = printableWidth,
+        //    Height = printableHeight
+        //};
 
-        printDialog.PrintVisual(printCanvas, "График LiveCharts2 (полная страница)");
-        */
+        //var printCanvas = new Canvas
+        //{
+        //    Width = printableWidth,
+        //    Height = printableHeight,
+        //    Background = Brushes.White
+        //};
+        //printCanvas.Children.Add(image);
+        //Canvas.SetLeft(image, (printDialog.PrintableAreaWidth - image.Width) / 2);
+        //Canvas.SetTop(image, (printDialog.PrintableAreaHeight - image.Height) / 2);
 
-        // тут тоже печать LiveChart2, но c незначительным изменнеием исходного UI элемента
-        /*
-        var pd = new PrintDialog();
-        if (pd.ShowDialog() == true)
-        {
-            var originalScale = chart.LayoutTransform;
-            var scale = pd.PrintableAreaWidth / chart.ActualWidth;
-            chart.LayoutTransform = new ScaleTransform(scale, scale);
-
-            pd.PrintVisual(chart, "Печать графика");
-            chart.LayoutTransform = originalScale;
-        */
+        //printDialog.PrintVisual(printCanvas, "График LiveCharts2 (полная страница)");
+        #endregion
     }
 
     // Очень грубая издержка, так делать нелья :), 
-    // но для постраты реализации прибегаем к магии и немного нарушаем прицип паттена MVVM,
+    // но для простаты реализации прибегаем к магии и немного нарушаем прицип паттена MVVM,
     // меня свойство ViewMdelи во View
     private void StoryBoard_Completed(object? sender, EventArgs e)
     {

@@ -33,7 +33,7 @@ public class MainViewModel : Notifier
         InitializePolymers();
 
         _device.PropertyChanged += DeviceOnPropertyChanged;
-        //_device.MeasurementCompleted += OnMeasurementCompleted;
+        _device.MeasurementCompleted += OnMeasurementCompleted;
         _dataService = dataService;
         _dialogService = dialogService;
 

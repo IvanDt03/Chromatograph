@@ -32,7 +32,7 @@ public class ChartLiveViewModel : Notifier
                 Fill = null,
                 Stroke = new SolidColorPaint(SKColors.Green) { StrokeThickness = 4 },
                 GeometryFill = null,
-                GeometryStroke = null
+                GeometryStroke = null,
             }
         };
 
@@ -41,6 +41,7 @@ public class ChartLiveViewModel : Notifier
             new Axis
             {
                 Name = "Объем",
+               
             }
         };
 

@@ -18,17 +18,23 @@ public class ChartOxyViewModel : Notifier
         _xAxis = new LinearAxis
         {
             Title = "Объем",
+            TitleFontSize = 20,
+            FontSize = 16,
             Position = AxisPosition.Bottom,
             IsZoomEnabled = false,
             IsPanEnabled = false,
+            MajorGridlineStyle = LineStyle.Solid,
         };
 
         _yAxis = new LinearAxis
         {
             Title = "Сигнал",
+            TitleFontSize = 20,
+            FontSize = 16,
             Position = AxisPosition.Left,
             IsZoomEnabled = false,
             IsPanEnabled = false,
+            MajorGridlineStyle = LineStyle.Solid,
         };
 
         _model = new PlotModel
@@ -40,6 +46,7 @@ public class ChartOxyViewModel : Notifier
         {
             StrokeThickness = 2,
             TrackerFormatString = "Объем: {2:0.000}\nСигнал: {4:0.000}",
+            Color = OxyColors.DarkGreen,
         };
 
         _model.Series.Add(_series);
@@ -55,16 +62,16 @@ public class ChartOxyViewModel : Notifier
 
     public void PreparationChart(Chromatograph.Models.Polymer loaded)
     {
-        //_xAxis.Reset();
+        _xAxis.Reset();
 
         _model.Title = loaded.Name;
 
-        //_xAxis.IsPanEnabled = false;
+        _xAxis.IsPanEnabled = false;
 
         _xAxis.Minimum = loaded.Data.Min(p => p.Volume);
         _xAxis.Maximum = loaded.Data.Max(p => p.Volume);
-        //_xAxis.AbsoluteMinimum = loaded.Data.Min(p => p.Volume);
-        //_xAxis.AbsoluteMaximum = loaded.Data.Max(p => p.Volume);
+        _xAxis.AbsoluteMinimum = loaded.Data.Min(p => p.Volume);
+        _xAxis.AbsoluteMaximum = loaded.Data.Max(p => p.Volume);
         
         _yAxis.Minimum = loaded.Data.Min(p => p.Signal);
         _yAxis.Maximum = loaded.Data.Max(p => p.Signal + 0.5);
@@ -74,8 +81,8 @@ public class ChartOxyViewModel : Notifier
     public void AddPoint(Chromatograph.Models.DataPoint point)
     {
         _series.Points.Add(new OxyPlot.DataPoint(point.Volume, point.Signal));
-        //_xAxis.Minimum = Math.Max(_xAxis.AbsoluteMinimum, point.Volume - 20);
-        //_xAxis.Maximum = Math.Min(_xAxis.AbsoluteMaximum, point.Volume + 5);
+        _xAxis.Minimum = Math.Max(_xAxis.AbsoluteMinimum, point.Volume - 20);
+        _xAxis.Maximum = Math.Min(_xAxis.AbsoluteMaximum, point.Volume + 5);
         _model.InvalidatePlot(true);
     }
 

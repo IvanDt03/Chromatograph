@@ -11,8 +11,20 @@
         xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.WPF;assembly=LiveChartsCore.SkiaSharpView.WPF"
         xmlns:oxy="http://oxyplot.org/wpf"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-   
+        Title="MainWindow" Height="650" Width="1000" WindowStartupLocation="CenterScreen">
+
+    <Window.Resources>
+        <Style TargetType="Button" BasedOn="{StaticResource ButtonDefault}">
+            <Setter Property="FontSize" Value="17"/>
+            <Setter Property="Height" Value="50"/>
+            <Setter Property="FontFamily" Value="Corbel"/>
+            <Setter Property="BorderBrush" Value="DarkSeaGreen"/>
+            <Setter Property="BorderThickness" Value="3"/>
+            <Setter Property="Margin" Value="20 20 0 20"/>
+            <Setter Property="Width" Value="auto"/>
+            <Setter Property="Background" Value="#A8E4A0"/>
+        </Style>
+    </Window.Resources>
 
     <Grid>
         <Grid.RowDefinitions>
@@ -36,13 +48,26 @@
         </Menu>
 
         <StackPanel Grid.Column="1" Grid.Row="1">
-            <TextBlock>Жидкотсный хроматограф</TextBlock>
-            <TextBlock>Доступные образцы (необходимо выбрать):</TextBlock>
-            <ComboBox x:Name="cmbPolymers" ItemsSource="{Binding Polymers}" DisplayMemberPath="Name"></ComboBox>
-            <Button Content="Загрузить образец"
-                    Command="{Binding LoadedCommand}" CommandParameter="{Binding ElementName=cmbPolymers, Path=SelectedItem}"></Button>
-            <TextBlock>Зашруженный образец</TextBlock>
-            <Label x:Name="lblLoaded" Content="{Binding LoadedPolymer, Mode=OneWay}">
+            <TextBlock TextAlignment="Center" FontSize="24" FontWeight="DemiBold"
+                       TextDecorations="Underline" Padding="5">Жидкостный хроматограф</TextBlock>
+
+            <TextBlock Style="{StaticResource ResourceKey=TextBlockThemeStyle}">Доступные образцы (необходимо выбрать):</TextBlock>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                <ComboBox x:Name="cmbPolymers" ItemsSource="{Binding Polymers}" 
+                          DisplayMemberPath="Name"
+                          Width="230" Height="40" Margin="5 10 5 10"
+                          HorizontalContentAlignment="Center" FontSize="16"></ComboBox>
+                <Button Content="Загрузить образец"
+                        Command="{Binding LoadedCommand}" 
+                        CommandParameter="{Binding ElementName=cmbPolymers, Path=SelectedItem}"
+                        Margin="5 10 5 10"></Button>
+            </StackPanel>
+            
+            <TextBlock Style="{StaticResource ResourceKey=TextBlockThemeStyle}">Загруженный образец</TextBlock>
+            <Label x:Name="lblLoaded" Content="{Binding LoadedPolymer, Mode=OneWay}"
+                   Width="220" Height="50" BorderBrush="MediumSeaGreen" Margin="10"
+                   BorderThickness="3" FontSize="20" FontFamily="Bookman Old Style">
                 <Label.ContentTemplate>
                     <DataTemplate DataType="{x:Type model:Polymer}">
                         <TextBlock Text="{Binding Name}"></TextBlock>
@@ -54,8 +79,11 @@
                     <ColumnDefinition></ColumnDefinition>
                     <ColumnDefinition></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <hc:ProgressButton  x:Name="prepareBtn" Grid.Column="0" Content="Подготовить образец" Command="{Binding PreparationCommand}"
-                                    CommandParameter="{Binding ElementName=lblLoaded, Path=Content}">
+                <hc:ProgressButton  x:Name="prepareBtn" Grid.Column="0" Content="Подготовка образеца" 
+                                    Command="{Binding PreparationCommand}"
+                                    CommandParameter="{Binding ElementName=lblLoaded, Path=Content}"
+                                    FontSize="18" Height="50" BorderBrush="DarkSeaGreen"
+                                    BorderThickness="3">
                     <hc:ProgressButton.Triggers>
                         <EventTrigger RoutedEvent="ToggleButton.Click">
                             <BeginStoryboard>
@@ -69,6 +97,11 @@
                             </BeginStoryboard>
                         </EventTrigger>
                     </hc:ProgressButton.Triggers>
+                    <hc:ProgressButton.ProgressStyle>
+                        <Style TargetType="ProgressBar" BasedOn="{StaticResource ProgressBarSuccess}">
+
+                        </Style>
+                    </hc:ProgressButton.ProgressStyle>
                 </hc:ProgressButton>
                 <Button Grid.Column="1" Content="Сбросить" Command="{Binding ResetCommand}"
                         CommandParameter="{Binding ElementName=lblLoaded, Path=Content}">
@@ -76,10 +109,17 @@
             </Grid>
             <Button Content="Запуск прибора" Command="{Binding StartMeasurementCommand}"
                     CommandParameter="{Binding ElementName=lblLoaded, Path=Content}"></Button>
-            <Button Content="Версия для печати" Command="{Binding PrintCommand}"></Button>
+            <Button Command="{Binding PrintCommand}">
+                <Button.Content>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/Content/PrintImage.png"/>
+                        <TextBlock Padding="10" VerticalAlignment="Center" Text="Версия для печати"/>
+                    </StackPanel>
+                </Button.Content>
+            </Button>
         </StackPanel>
 
-        <oxy:PlotView x:Name="chart" Margin="5" Grid.Row="1" 
+        <oxy:PlotView x:Name="chart" Grid.Row="1" 
                       Model="{Binding Plot.Model}"></oxy:PlotView>
         <!--<lvc:CartesianChart x:Name="chart" Grid.Row="1" 
                             Series="{Binding Plot.Series}"
