@@ -79,7 +79,7 @@
                     <ColumnDefinition></ColumnDefinition>
                     <ColumnDefinition></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <hc:ProgressButton  x:Name="prepareBtn" Grid.Column="0" Content="Подготовка образеца" 
+                <hc:ProgressButton  x:Name="prepareBtn" Grid.Column="0" Content="Подготовка образца" 
                                     Command="{Binding PreparationCommand}"
                                     CommandParameter="{Binding ElementName=lblLoaded, Path=Content}"
                                     FontSize="18" Height="50" BorderBrush="DarkSeaGreen"

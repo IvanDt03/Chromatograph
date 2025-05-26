@@ -68,8 +68,8 @@ public class ChartOxyViewModel : Notifier
 
         _xAxis.IsPanEnabled = false;
 
-        _xAxis.Minimum = loaded.Data.Min(p => p.Volume);
-        _xAxis.Maximum = loaded.Data.Max(p => p.Volume);
+        //_xAxis.Minimum = loaded.Data.Min(p => p.Volume);
+        //_xAxis.Maximum = loaded.Data.Max(p => p.Volume);
         _xAxis.AbsoluteMinimum = loaded.Data.Min(p => p.Volume);
         _xAxis.AbsoluteMaximum = loaded.Data.Max(p => p.Volume);
         
