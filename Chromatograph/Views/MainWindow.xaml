@@ -39,7 +39,7 @@
         <Menu Grid.Row="0">
             <MenuItem Header="О программе" FontSize="14">
                 <MenuItem Header="GitHub">
-                    <TextBox IsReadOnly="True" Padding="3">https://github.com/IvanDt03/KarginScales</TextBox>
+                    <TextBox IsReadOnly="True" Padding="3">https://github.com/IvanDt03/Chromatograph</TextBox>
                 </MenuItem>
                 <MenuItem Header="Телеграм">
                     <TextBox IsReadOnly="True" Padding="3">@ivandt03</TextBox>
