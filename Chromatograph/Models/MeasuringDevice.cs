@@ -35,7 +35,7 @@ public class MeasuringDevice : Notifier
         if (IsRunning)
             return;
         _amountOfData = amountOfdata;
-        CurrentPoint = 0;
+        _currentPoint = 0;
         _timer.Start();
     }
 

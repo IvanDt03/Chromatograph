@@ -17,7 +17,7 @@ public class ChartOxyViewModel : Notifier
     {
         _xAxis = new LinearAxis
         {
-            Title = "Объем",
+            Title = "Объем, мл",
             TitleFontSize = 20,
             FontSize = 16,
             Position = AxisPosition.Bottom,
@@ -69,7 +69,7 @@ public class ChartOxyViewModel : Notifier
         _xAxis.IsPanEnabled = false;
 
         //_xAxis.Minimum = loaded.Data.Min(p => p.Volume);
-        //_xAxis.Maximum = loaded.Data.Max(p => p.Volume);
+        _xAxis.Maximum = loaded.Data.Max(p => p.Volume);
         _xAxis.AbsoluteMinimum = loaded.Data.Min(p => p.Volume);
         _xAxis.AbsoluteMaximum = loaded.Data.Max(p => p.Volume);
         
@@ -81,8 +81,8 @@ public class ChartOxyViewModel : Notifier
     public void AddPoint(Chromatograph.Models.DataPoint point)
     {
         _series.Points.Add(new OxyPlot.DataPoint(point.Volume, point.Signal));
-        _xAxis.Minimum = Math.Max(_xAxis.AbsoluteMinimum, point.Volume - 20);
-        _xAxis.Maximum = Math.Min(_xAxis.AbsoluteMaximum, point.Volume + 5);
+        _xAxis.Minimum = Math.Max(_xAxis.AbsoluteMinimum, point.Volume - 25);
+        //_xAxis.Maximum = Math.Min(_xAxis.AbsoluteMaximum, point.Volume + 5);
         _model.InvalidatePlot(true);
     }
 
