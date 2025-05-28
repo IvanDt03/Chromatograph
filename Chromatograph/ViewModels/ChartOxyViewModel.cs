@@ -57,7 +57,7 @@ public class ChartOxyViewModel : Notifier
     public PlotModel Model
     {
         get { return _model; }
-        set { SetValue(ref _model, value, nameof(Model)); }
+        private set { SetValue(ref _model, value, nameof(Model)); }
     }
 
     public void PreparationChart(Chromatograph.Models.Polymer loaded)
@@ -68,7 +68,6 @@ public class ChartOxyViewModel : Notifier
 
         _xAxis.IsPanEnabled = false;
 
-        //_xAxis.Minimum = loaded.Data.Min(p => p.Volume);
         _xAxis.Maximum = loaded.Data.Max(p => p.Volume);
         _xAxis.AbsoluteMinimum = loaded.Data.Min(p => p.Volume);
         _xAxis.AbsoluteMaximum = loaded.Data.Max(p => p.Volume);
@@ -82,7 +81,6 @@ public class ChartOxyViewModel : Notifier
     {
         _series.Points.Add(new OxyPlot.DataPoint(point.Volume, point.Signal));
         _xAxis.Minimum = Math.Max(_xAxis.AbsoluteMinimum, point.Volume - 25);
-        //_xAxis.Maximum = Math.Min(_xAxis.AbsoluteMaximum, point.Volume + 5);
         _model.InvalidatePlot(true);
     }
 

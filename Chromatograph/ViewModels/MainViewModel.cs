@@ -16,9 +16,8 @@ public class MainViewModel : Notifier
     private IDialogService _dialogService;
     private IDataSerive _dataService;
     private double _progressModel;
-
-
     private ChartOxyViewModel _plot;
+
     #endregion
 
     #region Initialize

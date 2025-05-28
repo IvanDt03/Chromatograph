@@ -13,7 +13,7 @@ public class MeasuringDevice : Notifier
     public MeasuringDevice()
     {
         _timer = new DispatcherTimer();
-        _timer.Interval = TimeSpan.FromMilliseconds(30);
+        _timer.Interval = TimeSpan.FromMilliseconds(35);
         _timer.Tick += OnStartMeasurement;
     }
 

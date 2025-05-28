@@ -66,47 +66,6 @@ public partial class MainWindow : Window
         Canvas.SetTop(image, (printDialog.PrintableAreaHeight - image.Height) / 2);
 
         printDialog.PrintVisual(printCanvas, "Печать грфика");
-
-        #region
-        // Тут печать LiveCharts2
-
-        //var printDialog = new PrintDialog();
-
-        //printDialog.PrintTicket.PageOrientation = System.Printing.PageOrientation.Landscape;
-
-        //if (printDialog.ShowDialog() != true)
-        //    return;
-
-        //double printableWidth = printDialog.PrintableAreaWidth;
-        //double printableHeight = printDialog.PrintableAreaHeight;
-
-        //var bitmap = new RenderTargetBitmap(
-        //    (int)chart.ActualWidth,
-        //    (int)chart.ActualHeight,
-        //    96, 96,  // Можно 300 DPI, если нужно высокое качество
-        //    PixelFormats.Pbgra32);
-        //bitmap.Render(chart);
-
-        //var image = new Image
-        //{
-        //    Source = bitmap,
-        //    Stretch = Stretch.Fill,
-        //    Width = printableWidth,
-        //    Height = printableHeight
-        //};
-
-        //var printCanvas = new Canvas
-        //{
-        //    Width = printableWidth,
-        //    Height = printableHeight,
-        //    Background = Brushes.White
-        //};
-        //printCanvas.Children.Add(image);
-        //Canvas.SetLeft(image, (printDialog.PrintableAreaWidth - image.Width) / 2);
-        //Canvas.SetTop(image, (printDialog.PrintableAreaHeight - image.Height) / 2);
-
-        //printDialog.PrintVisual(printCanvas, "График LiveCharts2 (полная страница)");
-        #endregion
     }
 
     // Очень грубая издержка, так делать нелья :), 
