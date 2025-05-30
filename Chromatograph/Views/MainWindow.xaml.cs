@@ -19,7 +19,7 @@ public partial class MainWindow : Window
         var dialodService = new DialogService();
         dialodService.PrintChartRequested += PrintChart;
 
-        DataContext = new MainViewModel(new ExcelDataService("Content/Data.xlsx"), dialodService);
+        DataContext = new MainViewModel(new ExcelDataService("Content\\Data.xlsx"), dialodService);
     }
 
     private void PrintChart()
