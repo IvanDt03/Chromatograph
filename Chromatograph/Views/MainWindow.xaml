@@ -11,7 +11,7 @@
         xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.WPF;assembly=LiveChartsCore.SkiaSharpView.WPF"
         xmlns:oxy="http://oxyplot.org/wpf"
         mc:Ignorable="d"
-        Title="MainWindow" Height="650" Width="1000" WindowStartupLocation="CenterScreen">
+        Title="Жидкостный хроматограф" Height="650" Width="1000" WindowStartupLocation="CenterScreen">
 
     <Window.Resources>
         <Style TargetType="Button" BasedOn="{StaticResource ButtonDefault}">
