@@ -11,7 +11,8 @@
         xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.WPF;assembly=LiveChartsCore.SkiaSharpView.WPF"
         xmlns:oxy="http://oxyplot.org/wpf"
         mc:Ignorable="d"
-        Title="Жидкостный хроматограф" Height="650" Width="1000" WindowStartupLocation="CenterScreen">
+        Title="Жидкостный хроматограф" Height="1000" Width="1600" 
+        WindowStartupLocation="CenterScreen" WindowState="Maximized">
 
     <Window.Resources>
         <Style TargetType="Button" BasedOn="{StaticResource ButtonDefault}">
@@ -98,8 +99,15 @@
                         </EventTrigger>
                     </hc:ProgressButton.Triggers>
                     <hc:ProgressButton.ProgressStyle>
-                        <Style TargetType="ProgressBar" BasedOn="{StaticResource ProgressBarSuccess}">
-
+                        <Style TargetType="ProgressBar" BasedOn="{StaticResource ProgressBarFlat}">
+                            <Setter Property="Foreground">
+                                <Setter.Value>
+                                    <LinearGradientBrush>
+                                        <GradientStop Color="Green" Offset="0"></GradientStop>
+                                        <GradientStop Color="LawnGreen" Offset="1"></GradientStop>
+                                    </LinearGradientBrush>
+                                </Setter.Value>
+                            </Setter>
                         </Style>
                     </hc:ProgressButton.ProgressStyle>
                 </hc:ProgressButton>
